@@ -277,8 +277,8 @@ const modules = [
     iconBg: 'rgba(79,142,247,0.15)',
     title: 'Autenticación e Identidad',
     cu: 'CU-01.01 → CU-01.05',
-    desc: 'Gestiona el registro, autenticación y control de acceso de los usuarios según su rol, e incluye el perfil del cliente (datos personales y de contacto).',
-    tags: ['CU-01', 'JWT', 'Roles', 'Permisos', 'Cliente'],
+    desc: 'Gestiona el registro, autenticación y control de acceso de los usuarios según su rol. Usa tokens UUID de 64 chars almacenados en BD (NO JWT) con expiración de 480 min. BCrypt para hasheo de passwords.',
+    tags: ['CU-01', 'UUID-Token', 'Roles', 'Permisos', 'Cliente'],
     diagram: `classDiagram
   direction TB
   class Usuario {
@@ -569,7 +569,8 @@ const modules = [
   }
   Orden "1" --> "0..*" DetalleOrden : detalles
   Orden "1" --> "0..*" Pago : pagos
-  Carrito "1" --> "0..*" ItemCarrito : items`
+  Carrito "1" --> "0..*" ItemCarrito : items
+  Orden "0..*" ..> "1" Carrito : creada desde`
   },
   {
     id: 5,
@@ -664,7 +665,9 @@ const modules = [
   Despacho "1" --> "0..*" GuiaDespacho : despachoId
   Despacho "1" --> "0..*" SeguimientoPedido : despachoId
   SeguimientoPedido "1" --> "0..*" RegistroSeguimiento : seguimientoId
-  Envio "1" --> "0..*" HistorialTracking : historial`
+  Envio "1" --> "0..*" HistorialTracking : historial
+  Despacho "0..*" ..> "1" RutaDespacho : ruta
+  TransferenciaSucursal ..> Despacho : genera despacho`
   },
   {
     id: 6,
@@ -738,7 +741,8 @@ const modules = [
   Cita "0..*" --> "1" Box : boxId
   BloqueAgenda "0..*" --> "1" Box : boxId
   Cita "1" --> "0..*" Recordatorio : citaId
-  Cita "1" --> "0..*" HistorialAgenda : citaId`
+  Cita "1" --> "0..*" HistorialAgenda : citaId
+  DisponibilidadProfesional "0..*" ..> "0..*" Cita : define horario del veterinario`
   },
   {
     id: 7,
@@ -1130,7 +1134,8 @@ const modules = [
   Reporte "1" --> "0..1" ReporteVenta : reporteId
   Reporte "1" --> "0..1" ReporteStock : reporteId
   Dashboard ..> Reporte : consolida
-  MonitorSistema ..> IncidenteSistema : monitorea`
+  MonitorSistema ..> IncidenteSistema : monitorea
+  MonitorSistema "1" --> "0..*" Respaldo : registra`
   },
   {
     id: 12,
