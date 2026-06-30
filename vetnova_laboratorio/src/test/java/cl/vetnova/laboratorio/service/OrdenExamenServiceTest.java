@@ -18,6 +18,7 @@ import cl.vetnova.laboratorio.client.AuthClient;
 import cl.vetnova.laboratorio.client.FichaClient;
 import cl.vetnova.laboratorio.dto.CancelarOrdenRequest;
 import cl.vetnova.laboratorio.dto.CrearOrdenExamenRequest;
+import cl.vetnova.laboratorio.dto.OrdenExamenResponse;
 import cl.vetnova.laboratorio.dto.ProgramarOrdenRequest;
 import cl.vetnova.laboratorio.exception.BusinessRuleException;
 import cl.vetnova.laboratorio.exception.ResourceNotFoundException;
@@ -218,5 +219,20 @@ public class OrdenExamenServiceTest {
     void testListarPorMascota() {
         when(ordenRepository.findByMascotaIdOrderByFechaSolicitudDesc(1L)).thenReturn(List.of(orden(1L, "SOLICITADA")));
         assertEquals(1, service.listar(1L).size());
+    }
+
+    @Test
+    void testListarConNombreEnriquece() {
+        when(ordenRepository.findByMascotaIdOrderByFechaSolicitudDesc(5L)).thenReturn(List.of(orden(1L, "SOLICITADA")));
+        List<OrdenExamenResponse> result = service.listarConNombre(5L);
+        assertEquals(1, result.size());
+        assertEquals("Mascota Test", result.get(0).getNombreMascota());
+    }
+
+    @Test
+    void testBuscarConNombreEnriquece() {
+        when(ordenRepository.findById(1L)).thenReturn(Optional.of(orden(1L, "SOLICITADA")));
+        OrdenExamenResponse r = service.buscarConNombre(1L);
+        assertEquals("Mascota Test", r.getNombreMascota());
     }
 }

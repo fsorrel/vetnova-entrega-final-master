@@ -118,6 +118,23 @@ public class ResultadoExamenServiceTest {
     }
 
     @Test
+    void testRegistrarTecnicoIdNull() {
+        ordenEnProceso();
+        when(muestraRepository.findById(1L)).thenReturn(Optional.of(muestra(1L, "PROCESADA")));
+        BusinessRuleException ex = assertThrows(BusinessRuleException.class, () -> service.registrar(req(1L, 1L, null, "Normal")));
+        assertEquals("El tecnicoId es obligatorio", ex.getMessage());
+    }
+
+    @Test
+    void testRegistrarTecnicoNoEncontrado() {
+        ordenEnProceso();
+        when(muestraRepository.findById(1L)).thenReturn(Optional.of(muestra(1L, "PROCESADA")));
+        when(authClient.usuarioExiste(3L)).thenReturn(false);
+        ResourceNotFoundException ex = assertThrows(ResourceNotFoundException.class, () -> service.registrar(req(1L, 1L, 3L, "Normal")));
+        assertEquals("Técnico no encontrado", ex.getMessage());
+    }
+
+    @Test
     void testRegistrarMuestraInexistenteTecnicoInexistente() {
         ordenEnProceso();
         when(muestraRepository.findById(1L)).thenReturn(Optional.empty());
