@@ -1,10 +1,5 @@
 # VetNova - Backend de Microservicios
 
-
-compilar-todos.ps1
-
-
-
 Plataforma backend para una clínica veterinaria con sucursales en Chillán, Los Ángeles y Talca.
 Proyecto de Desarrollo Full Stack 1 (Duoc UC).
 
@@ -83,7 +78,7 @@ apagado, Ventas responde 502 con mensaje controlado en vez de caerse.
 
 ## Flujo de prueba completo (Postman)
 
-La colección `vetnova.postman_collection.json` en la raíz trae todos estos requests listos.
+Las colecciones están en `postman/`: `vetnova.postman_collection.json` (completa, trae todos estos requests) y `vetnova_collection_perfiles.json` (organizada por perfiles). Se importan en Postman con **File > Import**.
 
 1. **Auth**: `GET http://localhost:8081/api/usuarios/1/existe` → `{"id":1,"existe":true}` (hay usuarios de ejemplo en data.sql).
 2. **Soporte**: `POST http://localhost:8088/api/tickets` con un usuario válido → crea ticket validando contra Auth.
@@ -195,11 +190,27 @@ Todos los servicios responden errores con el mismo formato JSON:
 
 ## Diagramas
 
-`diagrama_microservicios_vetnova.html` (raíz del repo) tiene el diagrama de clases de cada
-microservicio en Mermaid, coherente con el código. Se abre directo en el navegador.
+`diagrama_clases_vetnova.html` (raíz del repo) tiene el diagrama de clases de cada
+microservicio en Mermaid, con atributos y operaciones coherentes con el código. Se abre
+directo en el navegador.
 
+## Estructura del proyecto (evidencias)
 
+Todo lo entregable está en estas ubicaciones:
 
+- `diagrama_clases_vetnova.html` — diagrama de clases por microservicio (Mermaid).
+- `docs/VetNova_Historias_de_Usuario.docx` — historias de usuario y criterios de aceptación de los 12 módulos (CU-01 a CU-12).
+- `README.md` — este archivo.
+- Scripts PowerShell (raíz): `compilar-todos.ps1`, `probar-todos.ps1`, `arrancar-todos.ps1`, `arrancar-silencioso.ps1`.
+- `postman/` — **colecciones y guías de evidencia**:
+  - `vetnova.postman_collection.json` — colección completa (todos los flujos).
+  - `vetnova_collection_perfiles.json` — colección organizada por perfiles de usuario.
+  - `flujo_general.md`, `flujo_agenda.md`, `flujo_catalogo.md`, `flujo_ficha.md` — flujos de prueba paso a paso.
+  - `guia_defensa.md` / `guia_defensa_tecnica.pdf` — guía de defensa técnica.
+  - `guia_demostracion_vetnova.md` — guion de demostración en Postman.
+  - `guia_codigo_catalogo.md` — explicación del código (ejemplo catálogo).
+  - `guia_vetnova.pdf` — guía general.
+- `vetnova_<servicio>/` — los 12 microservicios (código + pruebas en `src/test/java`, 100% de cobertura).
+- `getawayspring-profeAlejandro/` — API Gateway (Spring Cloud Gateway, puerto 8080).
 
-.\arrancar-todos.ps1
-.\compilar-todos.ps1
+Las bases H2 se crean solas en `./data/` al levantar los servicios (esa carpeta se ignora en git).

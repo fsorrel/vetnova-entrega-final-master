@@ -219,11 +219,12 @@
 
   .diagram-card .mermaid {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
+    width: max-content;
+    min-width: 100%;
   }
 
   .diagram-card svg {
-    max-width: 100%;
     height: auto;
   }
 
@@ -289,6 +290,14 @@ const modules = [
     +String passwordHash
     +Boolean activo
     +LocalDateTime fechaCreacion
+    +registrar() UsuarioResponse
+    +crear() UsuarioResponse
+    +actualizarPerfil() UsuarioResponse
+    +cambiarPassword(String actual, String nueva) void
+    +activar() UsuarioResponse
+    +desactivar() UsuarioResponse
+    +buscar(Long id) UsuarioResponse
+    +listar() List
   }
   class RolPermiso {
     +Long id
@@ -299,6 +308,9 @@ const modules = [
     +asignarPermiso(String permiso) void
     +revocarPermiso(String permiso) void
     +tienePermiso(String permiso) boolean
+    +crear() RolResponse
+    +actualizar() RolResponse
+    +eliminar() void
   }
   class SesionToken {
     +Long id
@@ -307,6 +319,9 @@ const modules = [
     +Boolean activo
     +esValido() boolean
     +revocar() void
+    +login() AuthResponse
+    +logout(String token) void
+    +validarToken(String token) ValidateTokenResponse
   }
   class AuditoriaAcceso {
     +Long id
@@ -315,6 +330,9 @@ const modules = [
     +LocalDateTime timestamp
     +Boolean exitoso
     +String detalle
+    +registrar(String accion, Boolean ok) void
+    +crear() AuditoriaResponse
+    +consultar(Long usuarioId, String accion) List
   }
   class Cliente {
     +Long id
@@ -327,6 +345,11 @@ const modules = [
     +String direccion
     +Boolean activo
     +LocalDateTime fechaRegistro
+    +crear() Cliente
+    +actualizarDatos() Cliente
+    +desactivar() Cliente
+    +buscar(Long id) Cliente
+    +listar() List
   }
   Usuario "0..*" --> "1" RolPermiso : rol
   Usuario "1" --> "0..*" SesionToken : usuario
@@ -352,6 +375,13 @@ const modules = [
     +Long categoriaId
     +String imagenUrl
     +LocalDate fechaActualizacion
+    +crear() ProductoResponse
+    +actualizarPrecio(Double nuevoPrecio) ProductoResponse
+    +activar() ProductoResponse
+    +desactivar() ProductoResponse
+    +obtenerPorId(Long id) ProductoResponse
+    +listar() List
+    +eliminar() void
   }
   class Servicio {
     +Long id
@@ -361,12 +391,21 @@ const modules = [
     +Integer duracionMinutos
     +Boolean activo
     +Long categoriaId
+    +crear() Servicio
+    +actualizarPrecio(Double nuevoPrecio) Servicio
+    +activar() Servicio
+    +desactivar() Servicio
+    +listar() List
+    +eliminar() void
   }
   class Categoria {
     +Long id
     +String nombre
     +String descripcion
     +String tipo
+    +crear() Categoria
+    +listar() List
+    +eliminar() void
   }
   class Oferta {
     +Long id
@@ -375,6 +414,11 @@ const modules = [
     +LocalDate fechaInicio
     +LocalDate fechaFin
     +Boolean activa
+    +crear() Oferta
+    +activar() Oferta
+    +desactivar() Oferta
+    +listar() List
+    +eliminar() void
   }
   class CatalogoBuscador {
     +List productos
@@ -409,12 +453,19 @@ const modules = [
     +Double precio
     +Boolean activo
     +LocalDateTime fechaCreacion
+    +crear() ProductoResponse
+    +actualizar() ProductoResponse
+    +obtenerPorId(Long id) ProductoResponse
+    +desactivar() void
+    +listar() List
   }
   class StockSucursal {
     +Long id
     +String idSucursal
     +Integer cantidad
     +Integer stockMinimo
+    +ajustarCantidad(Integer cantidad) void
+    +bajoStockMinimo() boolean
   }
   class Inventario {
     +Long id
@@ -423,6 +474,13 @@ const modules = [
     +Integer stockDisponible
     +Integer stockMinimo
     +Integer stockTransito
+    +crear() Inventario
+    +registrarEntrada(Integer cantidad, String responsable) Inventario
+    +registrarSalida(Integer cantidad, String motivo) Inventario
+    +ajustarStockMinimo(Integer minimo) Inventario
+    +getStockTotal() int
+    +verificarStockCritico() boolean
+    +listar() List
   }
   class MovimientoStock {
     +Long id
@@ -433,6 +491,9 @@ const modules = [
     +String responsable
     +String sucursal
     +LocalDateTime fecha
+    +registrar() MovimientoStockResponse
+    +listar() List
+    +obtenerPorId(Long id) MovimientoStock
   }
   class TransferenciaStock {
     +Long id
@@ -443,6 +504,11 @@ const modules = [
     +String estado
     +LocalDateTime fechaSolicitud
     +LocalDateTime fechaConfirmacion
+    +crear() TransferenciaStock
+    +iniciar() TransferenciaStock
+    +confirmarRecepcion() TransferenciaStock
+    +cancelar() CancelacionResponse
+    +listar() List
   }
   class AlertaStock {
     +Long id
@@ -454,6 +520,10 @@ const modules = [
     +Integer stockMinimo
     +Boolean leida
     +LocalDateTime fechaGeneracion
+    +crear() AlertaStock
+    +marcarLeida() AlertaLeidaResponse
+    +listar() List
+    +eliminar() void
   }
   class Proveedor {
     +Long id
@@ -464,11 +534,18 @@ const modules = [
     +String email
     +String direccion
     +Boolean activo
+    +crear() Proveedor
+    +actualizar() Proveedor
+    +asociarProducto(Long productoId) ProveedorProducto
+    +desactivar() Proveedor
+    +listar() List
   }
   class ProveedorProducto {
     +Long id
     +Long proveedorId
     +Long productoId
+    +asociar() void
+    +desasociar() void
   }
   class PedidoProveedor {
     +Long id
@@ -478,6 +555,11 @@ const modules = [
     +LocalDateTime fechaPedido
     +LocalDateTime fechaRecepcion
     +String responsable
+    +crear() PedidoProveedor
+    +enviar() PedidoProveedor
+    +recibir() PedidoProveedor
+    +cancelar() PedidoProveedor
+    +listar() List
   }
   class DetallePedidoProveedor {
     +Long id
@@ -486,6 +568,10 @@ const modules = [
     +Integer cantidad
     +Double precioUnitario
     +Double subtotal
+    +crear() DetallePedidoProveedor
+    +actualizar() DetallePedidoProveedor
+    +listar() List
+    +eliminar() void
   }
   class SolicitudReposicion {
     +Long id
@@ -498,6 +584,10 @@ const modules = [
     +String motivoRechazo
     +LocalDateTime fechaSolicitud
     +LocalDateTime fechaResolucion
+    +crear() SolicitudReposicion
+    +aprobar() SolicitudReposicion
+    +rechazar() SolicitudReposicion
+    +listar() List
   }
   Producto "1" --> "0..*" StockSucursal : stock
   Inventario "0..*" --> "1" Producto : productoId
@@ -530,8 +620,14 @@ const modules = [
     +Double total
     +LocalDateTime fechaCreacion
     +LocalDateTime fechaConfirmacion
-    +addDetalle(DetalleOrden detalle) void
-    +addPago(Pago pago) void
+    +addDetalle() void
+    +addPago() void
+    +crearOrden() OrdenResponse
+    +confirmar() OrdenResponse
+    +cancelar() OrdenResponse
+    +cambiarEstado() OrdenResponse
+    +agregarDetalle() OrdenResponse
+    +listar() List
   }
   class DetalleOrden {
     +Long id
@@ -541,12 +637,19 @@ const modules = [
     +Integer cantidad
     +Double precioUnitario
     +Double subtotal
+    +calcularSubtotal() Double
   }
   class Carrito {
     +Long id
     +Long clienteId
     +Double total
     +Boolean activo
+    +crear() Carrito
+    +agregarItem() CarritoItemResultado
+    +quitarItem(Long itemId) Carrito
+    +actualizarCantidad(Long itemId, Integer cantidad) Carrito
+    +calcularTotal() double
+    +vaciar() Carrito
   }
   class Pago {
     +Long id
@@ -556,6 +659,11 @@ const modules = [
     +String referencia
     +String motivoRechazo
     +LocalDateTime fecha
+    +crearPago() PagoResponse
+    +procesar() PagoResponse
+    +confirmar() PagoResponse
+    +rechazar(String motivo) PagoResponse
+    +reembolsar() PagoResponse
   }
   class ItemCarrito {
     +Long id
@@ -566,6 +674,8 @@ const modules = [
     +Integer cantidad
     +Double precio
     +Double subtotal
+    +calcularSubtotal() Double
+    +actualizarCantidad(Integer cantidad) void
   }
   Orden "1" --> "0..*" DetalleOrden : detalles
   Orden "1" --> "0..*" Pago : pagos
@@ -593,6 +703,12 @@ const modules = [
     +LocalDateTime fechaCreacion
     +LocalDateTime fechaEstimada
     +LocalDateTime fechaEntrega
+    +crear() Despacho
+    +iniciar() Despacho
+    +enviar() Despacho
+    +confirmarEntrega() Despacho
+    +cancelar() Despacho
+    +actualizarEstado(String nuevoEstado) Despacho
   }
   class ItemDespacho {
     +Long id
@@ -600,6 +716,9 @@ const modules = [
     +Long productoId
     +Integer cantidad
     +String estado
+    +agregarItem(Long despachoId) ItemDespacho
+    +eliminarItem(Long itemId) void
+    +listar() List
   }
   class GuiaDespacho {
     +Long id
@@ -610,6 +729,10 @@ const modules = [
     +LocalDateTime fechaEmision
     +String responsable
     +List productos
+    +crear() GuiaDespacho
+    +actualizar() GuiaDespacho
+    +listar() List
+    +eliminar() void
   }
   class SeguimientoPedido {
     +Long id
@@ -618,6 +741,10 @@ const modules = [
     +String estado
     +LocalDateTime fechaActualizacion
     +String descripcion
+    +crear() SeguimientoPedido
+    +actualizarEstado(String estado, String descripcion) SeguimientoPedido
+    +getHistorial() List
+    +listar() List
   }
   class RegistroSeguimiento {
     +Long id
@@ -625,6 +752,7 @@ const modules = [
     +String estado
     +String descripcion
     +LocalDateTime fecha
+    +registrar() void
   }
   class RutaDespacho {
     +Long id
@@ -633,6 +761,10 @@ const modules = [
     +Double distanciaKm
     +Integer tiempoEstimadoMin
     +Boolean activa
+    +crear() RutaDespacho
+    +optimizar(String origen, String destino) RutaDespacho
+    +calcularTiempoEstimado() int
+    +listar() List
   }
   class Envio {
     +Long id
@@ -643,13 +775,18 @@ const modules = [
     +String direccionEntrega
     +EstadoEnvio estadoActual
     +LocalDateTime fechaCreacion
-    +addTracking(HistorialTracking tracking) void
+    +addTracking() void
+    +crearEnvio() EnvioResponse
+    +obtenerTracking() List
+    +actualizarEstado() EnvioResponse
+    +listar() List
   }
   class HistorialTracking {
     +Long id
     +EstadoEnvio estado
     +String observacion
     +LocalDateTime fecha
+    +registrar() void
   }
   class TransferenciaSucursal {
     +Long id
@@ -660,6 +797,8 @@ const modules = [
     +String estado
     +String observacion
     +LocalDateTime fecha
+    +crearTransferencia() TransferenciaResponse
+    +listar() List
   }
   Despacho "1" --> "0..*" ItemDespacho : despachoId
   Despacho "1" --> "0..*" GuiaDespacho : despachoId
@@ -693,6 +832,13 @@ const modules = [
     +String motivoCancelacion
     +String canal
     +LocalDateTime fechaCreacion
+    +crear() Cita
+    +confirmar() Cita
+    +iniciar() Cita
+    +completar() Cita
+    +cancelar(String motivo) Cita
+    +reprogramar(Integer nuevaDuracion) Cita
+    +listar() List
   }
   class DisponibilidadProfesional {
     +Long id
@@ -702,6 +848,11 @@ const modules = [
     +String horaFin
     +String sucursal
     +Boolean activa
+    +crear() DisponibilidadProfesional
+    +actualizar() DisponibilidadProfesional
+    +activar() DisponibilidadProfesional
+    +desactivar() DisponibilidadProfesional
+    +listar() List
   }
   class Box {
     +Long id
@@ -709,6 +860,11 @@ const modules = [
     +String sucursal
     +Boolean disponible
     +String tipo
+    +crear() Box
+    +reservar() Box
+    +liberar() Box
+    +listar() List
+    +eliminar() void
   }
   class BloqueAgenda {
     +Long id
@@ -719,6 +875,9 @@ const modules = [
     +String motivo
     +Long creadoPor
     +String tipo
+    +crear() BloqueAgenda
+    +listar() List
+    +eliminar() void
   }
   class HistorialAgenda {
     +Long id
@@ -728,6 +887,9 @@ const modules = [
     +Date fecha
     +String estado
     +String servicio
+    +crear() HistorialAgenda
+    +listar() List
+    +eliminar() void
   }
   class Recordatorio {
     +Long id
@@ -737,6 +899,11 @@ const modules = [
     +String mensaje
     +Boolean enviado
     +Boolean cancelado
+    +crear() Recordatorio
+    +reenviar() Recordatorio
+    +generarParaCita() void
+    +cancelarPorCita(Long citaId) void
+    +listar() List
   }
   Cita "0..*" --> "1" Box : boxId
   BloqueAgenda "0..*" --> "1" Box : boxId
@@ -759,6 +926,10 @@ const modules = [
     +Long mascotaId
     +Date fechaCreacion
     +String observacionesGenerales
+    +crear() FichaClinica
+    +obtenerPorId(Long id) FichaClinicaResponse
+    +buscarPorMascota(Long mascotaId) FichaClinicaResponse
+    +listar() List
   }
   class Evolucion {
     +Long id
@@ -773,6 +944,9 @@ const modules = [
     +String observaciones
     +String descripcion
     +LocalDateTime fechaRegistro
+    +crear() Evolucion
+    +listarPorFicha(Long fichaId) List
+    +listar() List
   }
   class Vacuna {
     +Long id
@@ -783,6 +957,9 @@ const modules = [
     +Date fechaAplicacion
     +Date fechaProximaDosis
     +String observaciones
+    +crear() Vacuna
+    +listarPorFicha(Long fichaId) List
+    +listar() List
   }
   class Procedimiento {
     +Long id
@@ -794,6 +971,9 @@ const modules = [
     +String resultado
     +String nombre
     +LocalDateTime fechaRegistro
+    +crear() Procedimiento
+    +listarPorFicha(Long fichaId) List
+    +listar() List
   }
   class Receta {
     +Long id
@@ -807,6 +987,9 @@ const modules = [
     +String indicaciones
     +Date fechaEmision
     +Date fechaVencimiento
+    +crear() Receta
+    +listarPorFicha(Long fichaId) List
+    +listar() List
   }
   class Certificado {
     +Long id
@@ -817,6 +1000,9 @@ const modules = [
     +String contenido
     +Date fechaEmision
     +Date fechaVencimiento
+    +crear() Certificado
+    +listarPorFicha(Long fichaId) List
+    +listar() List
   }
   class Mascota {
     +Long id
@@ -829,6 +1015,11 @@ const modules = [
     +Double peso
     +String microchip
     +Boolean activo
+    +crear() Mascota
+    +actualizar() Mascota
+    +obtenerPorId(Long id) Mascota
+    +desactivar() MascotaDesactivacionResponse
+    +listar() List
   }
   Mascota "1" --> "1" FichaClinica : mascotaId
   FichaClinica "1" --> "0..*" Evolucion : fichaId
@@ -859,6 +1050,13 @@ const modules = [
     +LocalDateTime fechaCreacion
     +LocalDateTime fechaCierre
     +String resolucion
+    +crear() Ticket
+    +clasificar() Ticket
+    +derivar() Ticket
+    +escalar() Ticket
+    +responder() RespuestaTicket
+    +cerrar() Ticket
+    +listar(String estado) List
   }
   class CategoriaTicket {
     +Long id
@@ -866,6 +1064,10 @@ const modules = [
     +String descripcion
     +String areaPorDefecto
     +String prioridadDefault
+    +crear() CategoriaTicket
+    +actualizar() CategoriaTicket
+    +listar() List
+    +eliminar() void
   }
   class DerivacionTicket {
     +Long id
@@ -874,6 +1076,8 @@ const modules = [
     +Long responsableNuevo
     +String motivo
     +LocalDateTime fecha
+    +registrar() DerivacionTicket
+    +listarPorTicket(Long ticketId) List
   }
   class RespuestaTicket {
     +Long id
@@ -882,6 +1086,8 @@ const modules = [
     +String contenido
     +Boolean visible
     +LocalDateTime fecha
+    +registrar() RespuestaTicket
+    +listarPorTicket(Long ticketId) List
   }
   class EscalamientoTicket {
     +Long id
@@ -894,6 +1100,9 @@ const modules = [
     +String resolucion
     +LocalDateTime fechaEscalamiento
     +LocalDateTime fechaResolucion
+    +crear() EscalamientoTicket
+    +gestionar() EscalamientoTicket
+    +cerrar() EscalamientoTicket
   }
   class Valoracion {
     +Long id
@@ -903,6 +1112,9 @@ const modules = [
     +String comentario
     +String sucursalId
     +LocalDateTime fecha
+    +crear() Valoracion
+    +obtenerPorTicket(Long ticketId) Valoracion
+    +promedioPorSucursal(String sucursalId) PromedioValoracionResponse
   }
   Ticket "0..*" --> "1" CategoriaTicket : categoria
   Ticket "1" --> "0..*" DerivacionTicket : ticketId
@@ -929,6 +1141,11 @@ const modules = [
     +LocalDateTime fechaSolicitud
     +LocalDateTime fechaProgramada
     +String motivoCancelacion
+    +crear() OrdenExamen
+    +programar() OrdenExamen
+    +cancelar() OrdenExamen
+    +buscar(Long id) OrdenExamen
+    +listar(Long mascotaId) List
   }
   class TipoExamen {
     +Long id
@@ -937,6 +1154,10 @@ const modules = [
     +Integer tiempoEstimadoHoras
     +Boolean requiereMuestra
     +String instrucciones
+    +crear() TipoExamen
+    +actualizar() TipoExamen
+    +listar() List
+    +eliminar() void
   }
   class Muestra {
     +Long id
@@ -947,6 +1168,10 @@ const modules = [
     +LocalDateTime fechaRecepcion
     +String estadoProcesamiento
     +Long responsableRecepcion
+    +crear() Muestra
+    +registrarRecepcion() Muestra
+    +actualizarEstado() Muestra
+    +buscar(Long id) Muestra
   }
   class Procesamiento {
     +Long id
@@ -957,6 +1182,10 @@ const modules = [
     +LocalDateTime fechaInicio
     +LocalDateTime fechaFin
     +String observaciones
+    +crear() Procesamiento
+    +iniciar() Procesamiento
+    +completar() Procesamiento
+    +buscar(Long id) Procesamiento
   }
   class ResultadoExamen {
     +Long id
@@ -968,6 +1197,9 @@ const modules = [
     +Boolean disponible
     +Long fichaId
     +LocalDateTime fechaRegistro
+    +registrar() ResultadoExamen
+    +publicar() ResultadoExamen
+    +buscar(Long id) ResultadoExamen
   }
   OrdenExamen "0..*" --> "1" TipoExamen : tipoExamen
   OrdenExamen "1" --> "0..*" Muestra : ordenExamenId
@@ -999,6 +1231,11 @@ const modules = [
     +String rutReceptor
     +String sucursal
     +LocalDateTime fechaEmision
+    +emitir() DocumentoTributario
+    +anular(String motivo) DocumentoTributario
+    +enviarAlSII() DocumentoTributario
+    +buscarPorId(Long id) DocumentoTributario
+    +listar() List
   }
   class Folio {
     +Long id
@@ -1010,6 +1247,10 @@ const modules = [
     +Integer foliosRestantes
     +Boolean activo
     +Integer umbral
+    +crear() Folio
+    +getSiguienteFolio() Integer
+    +requiereAlerta() boolean
+    +listar() List
   }
   class AnulacionDocumento {
     +Long id
@@ -1018,6 +1259,9 @@ const modules = [
     +String motivo
     +String estadoSII
     +LocalDateTime fechaAnulacion
+    +registrar() AnulacionDocumento
+    +notificarSII() AnulacionDocumento
+    +buscar(Long id) AnulacionDocumento
   }
   class EnvioSII {
     +Long id
@@ -1027,6 +1271,10 @@ const modules = [
     +String estado
     +Boolean reintentado
     +LocalDateTime fechaEnvio
+    +enviar() EnvioSII
+    +procesarRespuesta() EnvioSII
+    +reintentar() EnvioSII
+    +buscar(Long id) EnvioSII
   }
   class ReporteTributario {
     +Long id
@@ -1037,6 +1285,10 @@ const modules = [
     +Double montoIva
     +Double montoTotal
     +LocalDateTime generadoEn
+    +generar() ReporteTributario
+    +exportar(String formato) ReporteTributario
+    +buscar(Long id) ReporteTributario
+    +listar() List
   }
   DocumentoTributario "1" --> "0..*" AnulacionDocumento : documentoId
   DocumentoTributario "1" --> "0..*" EnvioSII : documentoId
@@ -1062,6 +1314,11 @@ const modules = [
     +Long generadoPor
     +LocalDateTime generadoEn
     +String estado
+    +generar() Reporte
+    +exportar(String formato) Reporte
+    +filtrarPorSucursal(String sucursal) List
+    +buscar(Long id) Reporte
+    +listar() List
   }
   class ReporteAtencion {
     +Long id
@@ -1072,6 +1329,8 @@ const modules = [
     +Integer citasAusentes
     +Map atencionPorVeterinario
     +Map atencionPorServicio
+    +crear() ReporteAtencion
+    +calcularIndicadores() void
   }
   class ReporteVenta {
     +Long id
@@ -1081,6 +1340,8 @@ const modules = [
     +Integer productosVendidos
     +Map ventaPorProducto
     +Map ventaPorPeriodo
+    +crear() ReporteVenta
+    +calcularIndicadores() void
   }
   class ReporteStock {
     +Long id
@@ -1089,6 +1350,8 @@ const modules = [
     +Integer productosEnTransito
     +Map stockPorSucursal
     +Map movimientosRecientes
+    +crear() ReporteStock
+    +calcularIndicadores() void
   }
   class Dashboard {
     +String sucursal
@@ -1098,6 +1361,7 @@ const modules = [
     +Integer alertasStock
     +Integer ticketsAbiertos
     +Map indicadoresPrincipales
+    +cargarIndicadores(String sucursal) Dashboard
   }
   class MonitorSistema {
     +Long id
@@ -1107,6 +1371,8 @@ const modules = [
     +Double usoCpu
     +Double usoMemoria
     +LocalDateTime ultimoChequeo
+    +registrar() MonitorSistema
+    +historial(String microservicio) List
   }
   class IncidenteSistema {
     +Long id
@@ -1118,6 +1384,10 @@ const modules = [
     +String estado
     +LocalDateTime fechaDeteccion
     +LocalDateTime fechaResolucion
+    +registrar() IncidenteSistema
+    +notificarAdministrador() IncidenteSistema
+    +resolver() IncidenteSistema
+    +buscar(Long id) IncidenteSistema
   }
   class Respaldo {
     +Long id
@@ -1129,6 +1399,10 @@ const modules = [
     +Long ejecutadoPor
     +LocalDateTime fechaInicio
     +LocalDateTime fechaFin
+    +ejecutar() Respaldo
+    +verificarIntegridad() boolean
+    +restaurar() Respaldo
+    +buscar(Long id) Respaldo
   }
   Reporte "1" --> "0..1" ReporteAtencion : reporteId
   Reporte "1" --> "0..1" ReporteVenta : reporteId
@@ -1156,6 +1430,12 @@ const modules = [
     +String estado
     +LocalDateTime fechaEnvio
     +LocalDateTime fechaLectura
+    +crear() Notificacion
+    +marcarLeida() Notificacion
+    +reenviar() Notificacion
+    +buscar(Long id) Notificacion
+    +listar(Long usuarioId, Boolean leida) List
+    +contarNoLeidas(Long usuarioId) long
   }
   class CanalNotificacion {
     +Long id
@@ -1163,6 +1443,11 @@ const modules = [
     +String tipo
     +String destino
     +Boolean activo
+    +crear() CanalNotificacion
+    +actualizar() CanalNotificacion
+    +desactivar() CanalNotificacion
+    +listar(Long usuarioId) List
+    +eliminar() void
   }
   class PlantillaMensaje {
     +Long id
@@ -1170,6 +1455,10 @@ const modules = [
     +String tipo
     +String contenido
     +Boolean activa
+    +crear() PlantillaMensaje
+    +actualizar() PlantillaMensaje
+    +renderizar(Map valores) String
+    +eliminar() void
   }
   class HistorialMensaje {
     +Long id
@@ -1178,6 +1467,8 @@ const modules = [
     +String estado
     +String descripcion
     +LocalDateTime fechaEnvio
+    +crear() HistorialMensaje
+    +listar(Long notificacionId, Long canalId, String estado) List
   }
   class ConfiguracionAlerta {
     +Long id
@@ -1185,6 +1476,11 @@ const modules = [
     +String tipoEvento
     +String canal
     +Boolean activa
+    +crear() ConfiguracionAlerta
+    +activar() ConfiguracionAlerta
+    +desactivar() ConfiguracionAlerta
+    +listar(Long usuarioId) List
+    +eliminar() void
   }
   Notificacion "1" --> "0..*" HistorialMensaje : notificacionId
   HistorialMensaje "0..*" --> "1" CanalNotificacion : canalId
@@ -1248,6 +1544,17 @@ async function renderDiagram(idx) {
   try {
     const { svg } = await mermaid.render('diag-' + idx, 'classDiagram\n' + m.diagram.replace('classDiagram\n',''));
     container.innerHTML = svg;
+    // Forzar tamaño natural (mermaid encoge el SVG para caber y el texto queda ilegible).
+    // Al fijar el ancho al del viewBox, el texto se ve a tamaño completo y la tarjeta hace scroll.
+    const el = container.querySelector('svg');
+    if (el) {
+      const vb = (el.getAttribute('viewBox') || '').split(/\s+/);
+      if (vb.length === 4) {
+        el.style.maxWidth = 'none';
+        el.style.width = vb[2] + 'px';
+        el.style.height = vb[3] + 'px';
+      }
+    }
     container.style.display = 'flex';
     if (loading) loading.style.display = 'none';
   } catch(e) {
@@ -1259,6 +1566,7 @@ async function renderDiagram(idx) {
 mermaid.initialize({
   startOnLoad: false,
   theme: 'dark',
+  class: { useMaxWidth: false },
   themeVariables: {
     darkMode: true,
     background: '#13161d',

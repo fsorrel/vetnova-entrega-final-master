@@ -1,4 +1,17 @@
-$java = 'C:\Program Files\Eclipse Adoptium\jdk-25.0.2.10-hotspot\bin\java.exe'
+# Java: usa el del PATH; si no está, intenta ubicaciones conocidas
+$java = (Get-Command java -ErrorAction SilentlyContinue).Source
+if (-not $java) {
+    $candidatos = @(
+        'C:\Program Files\Java\jdk-26\bin\java.exe',
+        'C:\Program Files\Eclipse Adoptium\jdk-25.0.2.10-hotspot\bin\java.exe'
+    )
+    $java = $candidatos | Where-Object { Test-Path $_ } | Select-Object -First 1
+}
+if (-not $java) {
+    Write-Host "ERROR: no se encontro 'java' en el PATH ni en las rutas conocidas. Instala un JDK o agregalo al PATH." -ForegroundColor Red
+    exit 1
+}
+Write-Host "Usando Java: $java" -ForegroundColor DarkGray
 
 $raiz = $PSScriptRoot
 if (-not $raiz) { $raiz = (Get-Location).Path }

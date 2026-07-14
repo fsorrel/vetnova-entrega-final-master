@@ -1,6 +1,6 @@
-# Compila los 12 microservicios de VetNova uno por uno.
+# Compila (mvn clean package -DskipTests) los 12 microservicios de VetNova uno por uno.
 # Uso: abrir PowerShell en la raiz del proyecto y ejecutar:  .\compilar-todos.ps1
-# Requiere Maven (mvn) y JDK 17+ en el PATH.
+# Usa 'mvn' del PATH; si no esta, usa el mvnw.cmd del gateway. Requiere un JDK (proyecto en Java 17).
 
 $raiz = $PSScriptRoot
 if (-not $raiz) { $raiz = Get-Location }
