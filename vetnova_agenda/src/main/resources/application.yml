@@ -1,0 +1,52 @@
+server:
+  port: 8086
+spring:
+  application:
+    name: "vetnova_agenda"
+  datasource:
+    url: "jdbc:h2:file:./data/agendadb;AUTO_SERVER=TRUE;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE"
+    driverClassName: "org.h2.Driver"
+    username: "sa"
+    password: ""
+  jpa:
+    database-platform: "org.hibernate.dialect.H2Dialect"
+    hibernate:
+      ddl-auto: "update"
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: "always"
+  h2:
+    console:
+      enabled: true
+      path: "/h2-console"
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} %5level [${spring.application.name}] %logger{25} : %msg%n"
+app:
+  auth-service-url: "http://localhost:8081"
+  ficha-service-url: "http://localhost:8087"
+
+---
+# Perfil de desarrollo: SQL visible en consola
+spring:
+  config:
+    activate:
+      on-profile: dev
+  jpa:
+    show-sql: true
+---
+# Perfil de produccion: sin SQL en logs, consola H2 deshabilitada
+spring:
+  config:
+    activate:
+      on-profile: prod
+  jpa:
+    show-sql: false
+  h2:
+    console:
+      enabled: false

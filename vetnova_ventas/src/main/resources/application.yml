@@ -1,0 +1,50 @@
+server:
+  port: 8084
+spring:
+  application:
+    name: "vetnova_ventas"
+  datasource:
+    url: "jdbc:h2:file:./data/ventasdb;AUTO_SERVER=TRUE;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE"
+    driverClassName: "org.h2.Driver"
+    username: "sa"
+    password: ""
+  jpa:
+    database-platform: "org.hibernate.dialect.H2Dialect"
+    hibernate:
+      ddl-auto: "update"
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+  h2:
+    console:
+      enabled: true
+      path: "/h2-console"
+app:
+  inventario-service-url: "http://localhost:8083"
+  auth-service-url: "http://localhost:8081"
+  catalogo-service-url: "http://localhost:8082"
+  iva: 0.19
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} %5level [${spring.application.name}] %logger{25} : %msg%n"
+
+---
+# Perfil de desarrollo: SQL visible en consola
+spring:
+  config:
+    activate:
+      on-profile: dev
+  jpa:
+    show-sql: true
+---
+# Perfil de produccion: sin SQL en logs, consola H2 deshabilitada
+spring:
+  config:
+    activate:
+      on-profile: prod
+  jpa:
+    show-sql: false
+  h2:
+    console:
+      enabled: false
