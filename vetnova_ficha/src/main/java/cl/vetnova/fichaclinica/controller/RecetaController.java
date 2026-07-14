@@ -1,5 +1,7 @@
 package cl.vetnova.fichaclinica.controller;
 
+import jakarta.validation.Valid;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +38,7 @@ public class RecetaController {
      * @param request datos de la receta (fichaId, veterinarioId y lista de medicamentos son obligatorios)
      */
     @PostMapping
-    public ResponseEntity<Receta> crear(@RequestBody RecetaRequest request) {
+    public ResponseEntity<Receta> crear(@Valid @RequestBody RecetaRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(recetaService.crear(request));
     }
 
@@ -62,7 +64,7 @@ public class RecetaController {
      * Siempre lanza RegistroInmutableException con HTTP 409.
      */
     @PutMapping("/{id}")
-    public ResponseEntity<Void> actualizar(@PathVariable Long id, @RequestBody RecetaRequest request) {
+    public ResponseEntity<Void> actualizar(@PathVariable Long id, @Valid @RequestBody RecetaRequest request) {
         throw new RegistroInmutableException("Las recetas no pueden modificarse una vez emitidas");
     }
 

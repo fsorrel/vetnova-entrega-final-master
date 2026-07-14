@@ -1,5 +1,7 @@
 package cl.vetnova.notificaciones.controller;
 
+import jakarta.validation.Valid;
+
 import cl.vetnova.notificaciones.exception.RegistroInmutableException;
 import cl.vetnova.notificaciones.model.Notificacion;
 import cl.vetnova.notificaciones.service.NotificacionService;
@@ -30,7 +32,7 @@ public class NotificacionController {
     }
 
     @PostMapping
-    public ResponseEntity<Notificacion> crear(@RequestBody Notificacion request) {
+    public ResponseEntity<Notificacion> crear(@Valid @RequestBody Notificacion request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.crear(request));
     }
 
@@ -45,7 +47,7 @@ public class NotificacionController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> actualizar(@PathVariable Long id, @RequestBody Notificacion request) {
+    public ResponseEntity<Void> actualizar(@PathVariable Long id, @Valid @RequestBody Notificacion request) {
         throw new RegistroInmutableException("Las notificaciones no pueden modificarse");
     }
 

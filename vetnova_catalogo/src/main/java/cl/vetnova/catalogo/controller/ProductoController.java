@@ -1,5 +1,7 @@
 package cl.vetnova.catalogo.controller;
 
+import jakarta.validation.Valid;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +37,7 @@ public class ProductoController {
      * Retorna el producto creado (con id y fecha de actualización) con estado HTTP 201.
      */
     @PostMapping
-    public ResponseEntity<ProductoResponse> crear(@RequestBody ProductoRequest request){
+    public ResponseEntity<ProductoResponse> crear(@Valid @RequestBody ProductoRequest request){
         return ResponseEntity.status(HttpStatus.CREATED).body(productoService.crear(request));
     }
 

@@ -1,5 +1,7 @@
 package cl.vetnova.laboratorio.controller;
 
+import jakarta.validation.Valid;
+
 import cl.vetnova.laboratorio.dto.ActualizarEstadoMuestraRequest;
 import cl.vetnova.laboratorio.dto.RecepcionMuestraRequest;
 import cl.vetnova.laboratorio.dto.RegistrarMuestraRequest;
@@ -20,17 +22,17 @@ public class MuestraController {
     }
 
     @PostMapping
-    public ResponseEntity<Muestra> crear(@RequestBody RegistrarMuestraRequest request) {
+    public ResponseEntity<Muestra> crear(@Valid @RequestBody RegistrarMuestraRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.crear(request));
     }
 
     @PutMapping("/{id}/recepcion")
-    public ResponseEntity<Muestra> recepcion(@PathVariable Long id, @RequestBody RecepcionMuestraRequest request) {
+    public ResponseEntity<Muestra> recepcion(@PathVariable Long id, @Valid @RequestBody RecepcionMuestraRequest request) {
         return ResponseEntity.ok(service.registrarRecepcion(id, request));
     }
 
     @PutMapping("/{id}/estado")
-    public ResponseEntity<Muestra> actualizarEstado(@PathVariable Long id, @RequestBody ActualizarEstadoMuestraRequest request) {
+    public ResponseEntity<Muestra> actualizarEstado(@PathVariable Long id, @Valid @RequestBody ActualizarEstadoMuestraRequest request) {
         return ResponseEntity.ok(service.actualizarEstado(id, request));
     }
 }

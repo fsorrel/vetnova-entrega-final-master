@@ -1,5 +1,7 @@
 package cl.vetnova.notificaciones.controller;
 
+import jakarta.validation.Valid;
+
 import cl.vetnova.notificaciones.model.CanalNotificacion;
 import cl.vetnova.notificaciones.service.CanalNotificacionService;
 import java.util.List;
@@ -24,12 +26,12 @@ public class CanalNotificacionController {
     }
 
     @PostMapping
-    public ResponseEntity<CanalNotificacion> crear(@RequestBody CanalNotificacion request) {
+    public ResponseEntity<CanalNotificacion> crear(@Valid @RequestBody CanalNotificacion request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.crear(request));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CanalNotificacion> actualizar(@PathVariable Long id, @RequestBody CanalNotificacion request) {
+    public ResponseEntity<CanalNotificacion> actualizar(@PathVariable Long id, @Valid @RequestBody CanalNotificacion request) {
         return ResponseEntity.ok(service.actualizar(id, request));
     }
 

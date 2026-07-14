@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import cl.vetnova.catalogo.dto.CategoriaRequest;
 import cl.vetnova.catalogo.model.Categoria;
 import cl.vetnova.catalogo.service.CategoriaService;
+import jakarta.validation.Valid;
 
 /**
  * Controlador REST que expone los endpoints de gestión de categorías del catálogo.
@@ -33,7 +34,7 @@ public class CategoriaController {
      * Retorna la categoría persistida con su id generado y estado HTTP 201 (Created).
      */
     @PostMapping
-    public ResponseEntity<Categoria> crear(@RequestBody CategoriaRequest request){
+    public ResponseEntity<Categoria> crear(@Valid @RequestBody CategoriaRequest request){
         Categoria categoria = new Categoria();
         categoria.setNombre(request.nombre());
         categoria.setDescripcion(request.descripcion());

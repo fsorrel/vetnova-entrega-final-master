@@ -1,5 +1,7 @@
 package cl.vetnova.fichaclinica.controller;
 
+import jakarta.validation.Valid;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +48,7 @@ public class MascotaController {
      * @param mascota datos de la mascota a registrar (clienteId y nombre son obligatorios)
      */
     @PostMapping
-    public ResponseEntity<Mascota> crear(@RequestBody Mascota mascota) {
+    public ResponseEntity<Mascota> crear(@Valid @RequestBody Mascota mascota) {
         return ResponseEntity.status(HttpStatus.CREATED).body(mascotaService.crear(mascota));
     }
 
@@ -55,7 +57,7 @@ public class MascotaController {
      * @param id identificador de la mascota; @param mascota datos nuevos a aplicar
      */
     @PutMapping("/{id}")
-    public ResponseEntity<Mascota> actualizar(@PathVariable Long id, @RequestBody Mascota mascota) {
+    public ResponseEntity<Mascota> actualizar(@PathVariable Long id, @Valid @RequestBody Mascota mascota) {
         return ResponseEntity.ok(mascotaService.actualizar(id, mascota));
     }
 

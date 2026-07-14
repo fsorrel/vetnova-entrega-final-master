@@ -1,5 +1,7 @@
 package cl.vetnova.facturacion.controller;
 
+import jakarta.validation.Valid;
+
 import cl.vetnova.facturacion.dto.ReporteRequest;
 import cl.vetnova.facturacion.model.ReporteTributario;
 import cl.vetnova.facturacion.service.ReporteTributarioService;
@@ -29,7 +31,7 @@ public class ReporteTributarioController {
     }
 
     @PostMapping
-    public ResponseEntity<ReporteTributario> generar(@RequestBody ReporteRequest request) {
+    public ResponseEntity<ReporteTributario> generar(@Valid @RequestBody ReporteRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.generar(request));
     }
 

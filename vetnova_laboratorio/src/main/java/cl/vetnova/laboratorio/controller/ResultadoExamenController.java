@@ -1,5 +1,7 @@
 package cl.vetnova.laboratorio.controller;
 
+import jakarta.validation.Valid;
+
 import cl.vetnova.laboratorio.dto.RegistrarResultadoRequest;
 import cl.vetnova.laboratorio.model.ResultadoExamen;
 import cl.vetnova.laboratorio.service.ResultadoExamenService;
@@ -18,7 +20,7 @@ public class ResultadoExamenController {
     }
 
     @PostMapping
-    public ResponseEntity<ResultadoExamen> registrar(@RequestBody RegistrarResultadoRequest request) {
+    public ResponseEntity<ResultadoExamen> registrar(@Valid @RequestBody RegistrarResultadoRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.registrar(request));
     }
 

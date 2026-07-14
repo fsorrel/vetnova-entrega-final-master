@@ -1,5 +1,7 @@
 package cl.vetnova.facturacion.controller;
 
+import jakarta.validation.Valid;
+
 import cl.vetnova.facturacion.dto.FolioRequest;
 import cl.vetnova.facturacion.model.Folio;
 import cl.vetnova.facturacion.service.FolioService;
@@ -29,7 +31,7 @@ public class FolioController {
     }
 
     @PostMapping
-    public ResponseEntity<Folio> crear(@RequestBody FolioRequest request) {
+    public ResponseEntity<Folio> crear(@Valid @RequestBody FolioRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.crear(request));
     }
 }

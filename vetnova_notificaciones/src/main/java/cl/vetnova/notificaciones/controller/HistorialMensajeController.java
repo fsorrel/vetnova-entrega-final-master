@@ -1,5 +1,7 @@
 package cl.vetnova.notificaciones.controller;
 
+import jakarta.validation.Valid;
+
 import cl.vetnova.notificaciones.exception.RegistroInmutableException;
 import cl.vetnova.notificaciones.model.HistorialMensaje;
 import cl.vetnova.notificaciones.service.HistorialMensajeService;
@@ -26,12 +28,12 @@ public class HistorialMensajeController {
     }
 
     @PostMapping
-    public ResponseEntity<HistorialMensaje> crear(@RequestBody HistorialMensaje request) {
+    public ResponseEntity<HistorialMensaje> crear(@Valid @RequestBody HistorialMensaje request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.crear(request));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> actualizar(@PathVariable Long id, @RequestBody HistorialMensaje request) {
+    public ResponseEntity<Void> actualizar(@PathVariable Long id, @Valid @RequestBody HistorialMensaje request) {
         throw new RegistroInmutableException("El historial de mensajes no puede modificarse");
     }
 

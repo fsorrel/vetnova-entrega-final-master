@@ -1,5 +1,7 @@
 package cl.vetnova.laboratorio.controller;
 
+import jakarta.validation.Valid;
+
 import cl.vetnova.laboratorio.dto.CompletarProcesamientoRequest;
 import cl.vetnova.laboratorio.dto.CrearProcesamientoRequest;
 import cl.vetnova.laboratorio.model.Procesamiento;
@@ -19,7 +21,7 @@ public class ProcesamientoController {
     }
 
     @PostMapping
-    public ResponseEntity<Procesamiento> crear(@RequestBody CrearProcesamientoRequest request) {
+    public ResponseEntity<Procesamiento> crear(@Valid @RequestBody CrearProcesamientoRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.crear(request));
     }
 
@@ -29,7 +31,7 @@ public class ProcesamientoController {
     }
 
     @PutMapping("/{id}/completar")
-    public ResponseEntity<Procesamiento> completar(@PathVariable Long id, @RequestBody CompletarProcesamientoRequest request) {
+    public ResponseEntity<Procesamiento> completar(@PathVariable Long id, @Valid @RequestBody CompletarProcesamientoRequest request) {
         return ResponseEntity.ok(service.completar(id, request));
     }
 }

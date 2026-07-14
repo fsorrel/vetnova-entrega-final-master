@@ -1,10 +1,15 @@
 package cl.vetnova.laboratorio.dto;
 
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDateTime;
 
 public class CrearOrdenExamenRequest {
+    @NotNull(message = "El mascotaId es obligatorio")
     private Long mascotaId;
+    @NotNull(message = "El veterinarioId es obligatorio")
     private Long veterinarioId;
+    @NotNull(message = "El tipoExamenId es obligatorio")
     private Long tipoExamenId;
     private String descripcion;
     private LocalDateTime fechaProgramada;

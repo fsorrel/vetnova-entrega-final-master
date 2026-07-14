@@ -1,5 +1,7 @@
 package cl.vetnova.soporte.controller;
 
+import jakarta.validation.Valid;
+
 import cl.vetnova.soporte.dto.RespuestaRequest;
 import cl.vetnova.soporte.exception.RegistroInmutableException;
 import cl.vetnova.soporte.model.RespuestaTicket;
@@ -19,12 +21,12 @@ public class RespuestaTicketController {
     }
 
     @PostMapping
-    public ResponseEntity<RespuestaTicket> registrar(@RequestBody RespuestaRequest request) {
+    public ResponseEntity<RespuestaTicket> registrar(@Valid @RequestBody RespuestaRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.registrar(request));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> actualizar(@PathVariable Long id, @RequestBody RespuestaRequest request) {
+    public ResponseEntity<Void> actualizar(@PathVariable Long id, @Valid @RequestBody RespuestaRequest request) {
         throw new RegistroInmutableException("Las respuestas no pueden modificarse ni eliminarse");
     }
 

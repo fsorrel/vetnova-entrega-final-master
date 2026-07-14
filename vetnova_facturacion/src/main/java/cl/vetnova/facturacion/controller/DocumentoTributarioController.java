@@ -1,5 +1,7 @@
 package cl.vetnova.facturacion.controller;
 
+import jakarta.validation.Valid;
+
 import cl.vetnova.facturacion.dto.AnularDocumentoRequest;
 import cl.vetnova.facturacion.dto.DocumentoTributarioRequest;
 import cl.vetnova.facturacion.model.DocumentoTributario;
@@ -30,12 +32,12 @@ public class DocumentoTributarioController {
     }
 
     @PostMapping
-    public ResponseEntity<DocumentoTributario> emitir(@RequestBody DocumentoTributarioRequest request) {
+    public ResponseEntity<DocumentoTributario> emitir(@Valid @RequestBody DocumentoTributarioRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.emitir(request));
     }
 
     @PutMapping("/{id}/anular")
-    public ResponseEntity<DocumentoTributario> anular(@PathVariable Long id, @RequestBody AnularDocumentoRequest request) {
+    public ResponseEntity<DocumentoTributario> anular(@PathVariable Long id, @Valid @RequestBody AnularDocumentoRequest request) {
         return ResponseEntity.ok(service.anular(id, request.getMotivo()));
     }
 

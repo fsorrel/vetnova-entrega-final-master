@@ -1,5 +1,7 @@
 package cl.vetnova.laboratorio.controller;
 
+import jakarta.validation.Valid;
+
 import cl.vetnova.laboratorio.dto.TipoExamenRequest;
 import cl.vetnova.laboratorio.model.TipoExamen;
 import cl.vetnova.laboratorio.service.TipoExamenService;
@@ -30,12 +32,12 @@ public class TipoExamenController {
     }
 
     @PostMapping
-    public ResponseEntity<TipoExamen> crear(@RequestBody TipoExamenRequest request) {
+    public ResponseEntity<TipoExamen> crear(@Valid @RequestBody TipoExamenRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.crear(request));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TipoExamen> actualizar(@PathVariable Long id, @RequestBody TipoExamenRequest request) {
+    public ResponseEntity<TipoExamen> actualizar(@PathVariable Long id, @Valid @RequestBody TipoExamenRequest request) {
         return ResponseEntity.ok(service.actualizar(id, request));
     }
 

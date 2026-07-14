@@ -1,5 +1,7 @@
 package cl.vetnova.notificaciones.controller;
 
+import jakarta.validation.Valid;
+
 import cl.vetnova.notificaciones.model.ConfiguracionAlerta;
 import cl.vetnova.notificaciones.service.ConfiguracionAlertaService;
 import java.util.List;
@@ -24,7 +26,7 @@ public class ConfiguracionAlertaController {
     }
 
     @PostMapping
-    public ResponseEntity<ConfiguracionAlerta> crear(@RequestBody ConfiguracionAlerta request) {
+    public ResponseEntity<ConfiguracionAlerta> crear(@Valid @RequestBody ConfiguracionAlerta request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.crear(request));
     }
 

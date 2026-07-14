@@ -1,5 +1,7 @@
 package cl.vetnova.fichaclinica.controller;
 
+import jakarta.validation.Valid;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +37,7 @@ public class EvolucionController {
      * @param evolucion datos de la evolución (fichaId, veterinarioId, citaId y descripcion son obligatorios)
      */
     @PostMapping
-    public ResponseEntity<Evolucion> crear(@RequestBody Evolucion evolucion) {
+    public ResponseEntity<Evolucion> crear(@Valid @RequestBody Evolucion evolucion) {
         return ResponseEntity.status(HttpStatus.CREATED).body(evolucionService.crear(evolucion));
     }
 
@@ -61,7 +63,7 @@ public class EvolucionController {
      * Siempre lanza RegistroInmutableException con HTTP 409.
      */
     @PutMapping("/{id}")
-    public ResponseEntity<Void> actualizar(@PathVariable Long id, @RequestBody Evolucion evolucion) {
+    public ResponseEntity<Void> actualizar(@PathVariable Long id, @Valid @RequestBody Evolucion evolucion) {
         throw new RegistroInmutableException("Las evoluciones no pueden modificarse una vez registradas");
     }
 

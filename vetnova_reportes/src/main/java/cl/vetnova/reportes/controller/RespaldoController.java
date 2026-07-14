@@ -1,5 +1,7 @@
 package cl.vetnova.reportes.controller;
 
+import jakarta.validation.Valid;
+
 import cl.vetnova.reportes.model.Respaldo;
 import cl.vetnova.reportes.service.RespaldoService;
 import org.springframework.http.HttpStatus;
@@ -17,7 +19,7 @@ public class RespaldoController {
     }
 
     @PostMapping
-    public ResponseEntity<Respaldo> ejecutar(@RequestBody Respaldo request) {
+    public ResponseEntity<Respaldo> ejecutar(@Valid @RequestBody Respaldo request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.ejecutar(request));
     }
 

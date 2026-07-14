@@ -1,5 +1,7 @@
 package cl.vetnova.fichaclinica.controller;
 
+import jakarta.validation.Valid;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +37,7 @@ public class ProcedimientoController {
      * @param procedimiento datos del procedimiento (fichaId, nombre, descripcion y veterinarioId son obligatorios)
      */
     @PostMapping
-    public ResponseEntity<Procedimiento> crear(@RequestBody Procedimiento procedimiento) {
+    public ResponseEntity<Procedimiento> crear(@Valid @RequestBody Procedimiento procedimiento) {
         return ResponseEntity.status(HttpStatus.CREATED).body(procedimientoService.crear(procedimiento));
     }
 
@@ -61,7 +63,7 @@ public class ProcedimientoController {
      * Siempre lanza RegistroInmutableException con HTTP 409.
      */
     @PutMapping("/{id}")
-    public ResponseEntity<Void> actualizar(@PathVariable Long id, @RequestBody Procedimiento procedimiento) {
+    public ResponseEntity<Void> actualizar(@PathVariable Long id, @Valid @RequestBody Procedimiento procedimiento) {
         throw new RegistroInmutableException("Los procedimientos no pueden modificarse una vez registrados");
     }
 

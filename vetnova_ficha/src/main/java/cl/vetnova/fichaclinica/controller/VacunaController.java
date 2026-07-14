@@ -1,5 +1,7 @@
 package cl.vetnova.fichaclinica.controller;
 
+import jakarta.validation.Valid;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +37,7 @@ public class VacunaController {
      * @param vacuna datos de la vacuna (fichaId, nombre y fechaAplicacion son obligatorios)
      */
     @PostMapping
-    public ResponseEntity<Vacuna> crear(@RequestBody Vacuna vacuna) {
+    public ResponseEntity<Vacuna> crear(@Valid @RequestBody Vacuna vacuna) {
         return ResponseEntity.status(HttpStatus.CREATED).body(vacunaService.crear(vacuna));
     }
 
@@ -61,7 +63,7 @@ public class VacunaController {
      * Siempre lanza RegistroInmutableException con HTTP 409.
      */
     @PutMapping("/{id}")
-    public ResponseEntity<Void> actualizar(@PathVariable Long id, @RequestBody Vacuna vacuna) {
+    public ResponseEntity<Void> actualizar(@PathVariable Long id, @Valid @RequestBody Vacuna vacuna) {
         throw new RegistroInmutableException("Las vacunas no pueden modificarse una vez registradas");
     }
 

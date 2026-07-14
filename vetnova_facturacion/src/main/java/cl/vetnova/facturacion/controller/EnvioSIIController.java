@@ -1,5 +1,7 @@
 package cl.vetnova.facturacion.controller;
 
+import jakarta.validation.Valid;
+
 import cl.vetnova.facturacion.dto.EnvioSIIRequest;
 import cl.vetnova.facturacion.dto.ProcesarRespuestaSiiRequest;
 import cl.vetnova.facturacion.model.EnvioSII;
@@ -19,12 +21,12 @@ public class EnvioSIIController {
     }
 
     @PostMapping
-    public ResponseEntity<EnvioSII> enviar(@RequestBody EnvioSIIRequest request) {
+    public ResponseEntity<EnvioSII> enviar(@Valid @RequestBody EnvioSIIRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.enviar(request));
     }
 
     @PutMapping("/{id}/procesar-respuesta")
-    public ResponseEntity<EnvioSII> procesarRespuesta(@PathVariable Long id, @RequestBody ProcesarRespuestaSiiRequest request) {
+    public ResponseEntity<EnvioSII> procesarRespuesta(@PathVariable Long id, @Valid @RequestBody ProcesarRespuestaSiiRequest request) {
         return ResponseEntity.ok(service.procesarRespuesta(id, request));
     }
 

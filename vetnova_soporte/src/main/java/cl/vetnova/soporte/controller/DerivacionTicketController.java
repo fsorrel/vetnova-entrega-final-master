@@ -1,5 +1,7 @@
 package cl.vetnova.soporte.controller;
 
+import jakarta.validation.Valid;
+
 import cl.vetnova.soporte.dto.DerivacionRequest;
 import cl.vetnova.soporte.exception.RegistroInmutableException;
 import cl.vetnova.soporte.model.DerivacionTicket;
@@ -19,12 +21,12 @@ public class DerivacionTicketController {
     }
 
     @PostMapping
-    public ResponseEntity<DerivacionTicket> registrar(@RequestBody DerivacionRequest request) {
+    public ResponseEntity<DerivacionTicket> registrar(@Valid @RequestBody DerivacionRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.registrar(request));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> actualizar(@PathVariable Long id, @RequestBody DerivacionRequest request) {
+    public ResponseEntity<Void> actualizar(@PathVariable Long id, @Valid @RequestBody DerivacionRequest request) {
         throw new RegistroInmutableException("Las derivaciones no pueden modificarse ni eliminarse");
     }
 

@@ -1,5 +1,7 @@
 package cl.vetnova.catalogo.controller;
 
+import jakarta.validation.Valid;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +36,7 @@ public class OfertaController {
      * Retorna la oferta persistida con estado HTTP 201; el servicio valida solapamiento con otras ofertas activas.
      */
     @PostMapping
-    public ResponseEntity<Oferta> crear(@RequestBody OfertaRequest request){
+    public ResponseEntity<Oferta> crear(@Valid @RequestBody OfertaRequest request){
         Oferta oferta = new Oferta();
         oferta.setProductoId(request.productoId());
         oferta.setDescuento(request.descuento());

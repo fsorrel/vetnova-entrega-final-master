@@ -1,5 +1,7 @@
 package cl.vetnova.laboratorio.controller;
 
+import jakarta.validation.Valid;
+
 import cl.vetnova.laboratorio.dto.CancelarOrdenRequest;
 import cl.vetnova.laboratorio.dto.CrearOrdenExamenRequest;
 import cl.vetnova.laboratorio.dto.OrdenExamenResponse;
@@ -32,17 +34,17 @@ public class OrdenExamenController {
     }
 
     @PostMapping
-    public ResponseEntity<OrdenExamen> crear(@RequestBody CrearOrdenExamenRequest request) {
+    public ResponseEntity<OrdenExamen> crear(@Valid @RequestBody CrearOrdenExamenRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.crear(request));
     }
 
     @PutMapping("/{id}/programar")
-    public ResponseEntity<OrdenExamen> programar(@PathVariable Long id, @RequestBody ProgramarOrdenRequest request) {
+    public ResponseEntity<OrdenExamen> programar(@PathVariable Long id, @Valid @RequestBody ProgramarOrdenRequest request) {
         return ResponseEntity.ok(service.programar(id, request));
     }
 
     @PutMapping("/{id}/cancelar")
-    public ResponseEntity<OrdenExamen> cancelar(@PathVariable Long id, @RequestBody CancelarOrdenRequest request) {
+    public ResponseEntity<OrdenExamen> cancelar(@PathVariable Long id, @Valid @RequestBody CancelarOrdenRequest request) {
         return ResponseEntity.ok(service.cancelar(id, request));
     }
 }

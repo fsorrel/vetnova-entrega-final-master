@@ -1,5 +1,7 @@
 package cl.vetnova.soporte.controller;
 
+import jakarta.validation.Valid;
+
 import cl.vetnova.soporte.dto.CategoriaTicketRequest;
 import cl.vetnova.soporte.model.CategoriaTicket;
 import cl.vetnova.soporte.service.CategoriaTicketService;
@@ -30,12 +32,12 @@ public class CategoriaTicketController {
     }
 
     @PostMapping
-    public ResponseEntity<CategoriaTicket> crear(@RequestBody CategoriaTicketRequest request) {
+    public ResponseEntity<CategoriaTicket> crear(@Valid @RequestBody CategoriaTicketRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.crear(request));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CategoriaTicket> actualizar(@PathVariable Long id, @RequestBody CategoriaTicketRequest request) {
+    public ResponseEntity<CategoriaTicket> actualizar(@PathVariable Long id, @Valid @RequestBody CategoriaTicketRequest request) {
         return ResponseEntity.ok(service.actualizar(id, request));
     }
 

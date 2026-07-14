@@ -1,5 +1,7 @@
 package cl.vetnova.catalogo.controller;
 
+import jakarta.validation.Valid;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +37,7 @@ public class ServicioController {
      * Retorna el servicio persistido con estado HTTP 201 (Created).
      */
     @PostMapping
-    public ResponseEntity<Servicio> crear(@RequestBody ServicioRequest request){
+    public ResponseEntity<Servicio> crear(@Valid @RequestBody ServicioRequest request){
         Servicio servicio = new Servicio();
         servicio.setNombre(request.nombre());
         servicio.setDescripcion(request.descripcion());

@@ -1,5 +1,7 @@
 package cl.vetnova.facturacion.controller;
 
+import jakarta.validation.Valid;
+
 import cl.vetnova.facturacion.dto.AnulacionRequest;
 import cl.vetnova.facturacion.exception.RegistroInmutableException;
 import cl.vetnova.facturacion.model.AnulacionDocumento;
@@ -19,7 +21,7 @@ public class AnulacionDocumentoController {
     }
 
     @PostMapping
-    public ResponseEntity<AnulacionDocumento> registrar(@RequestBody AnulacionRequest request) {
+    public ResponseEntity<AnulacionDocumento> registrar(@Valid @RequestBody AnulacionRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.registrar(request));
     }
 
@@ -29,7 +31,7 @@ public class AnulacionDocumentoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> actualizar(@PathVariable Long id, @RequestBody AnulacionRequest request) {
+    public ResponseEntity<Void> actualizar(@PathVariable Long id, @Valid @RequestBody AnulacionRequest request) {
         throw new RegistroInmutableException("Las anulaciones no pueden modificarse ni eliminarse");
     }
 

@@ -1,8 +1,15 @@
 package cl.vetnova.soporte.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class CrearTicketRequest {
+    @NotNull(message = "El clienteId es obligatorio")
     private Long clienteId;
+
+    @NotBlank(message = "El motivo es obligatorio")
     private String motivo;
+
     private String descripcion;
     private String sucursalId;
 

@@ -1,5 +1,7 @@
 package cl.vetnova.fichaclinica.controller;
 
+import jakarta.validation.Valid;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +38,7 @@ public class FichaClinicaController {
      * @param request contiene mascotaId y observaciones generales opcionales
      */
     @PostMapping
-    public ResponseEntity<FichaClinica> crear(@RequestBody FichaClinicaRequest request) {
+    public ResponseEntity<FichaClinica> crear(@Valid @RequestBody FichaClinicaRequest request) {
         FichaClinica fichaClinica = new FichaClinica();
         fichaClinica.setMascotaId(request.mascotaId());
         fichaClinica.setObservacionesGenerales(request.observacionesGenerales());

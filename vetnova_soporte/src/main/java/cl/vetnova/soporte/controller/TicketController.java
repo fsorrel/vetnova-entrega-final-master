@@ -1,5 +1,7 @@
 package cl.vetnova.soporte.controller;
 
+import jakarta.validation.Valid;
+
 import cl.vetnova.soporte.dto.CerrarTicketRequest;
 import cl.vetnova.soporte.dto.ClasificarTicketRequest;
 import cl.vetnova.soporte.dto.CrearTicketRequest;
@@ -46,17 +48,17 @@ public class TicketController {
     }
 
     @PostMapping
-    public ResponseEntity<Ticket> crear(@RequestBody CrearTicketRequest request) {
+    public ResponseEntity<Ticket> crear(@Valid @RequestBody CrearTicketRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(ticketService.crear(request));
     }
 
     @PutMapping("/{id}/clasificar")
-    public ResponseEntity<Ticket> clasificar(@PathVariable Long id, @RequestBody ClasificarTicketRequest request) {
+    public ResponseEntity<Ticket> clasificar(@PathVariable Long id, @Valid @RequestBody ClasificarTicketRequest request) {
         return ResponseEntity.ok(ticketService.clasificar(id, request));
     }
 
     @PutMapping("/{id}/derivar")
-    public ResponseEntity<Ticket> derivar(@PathVariable Long id, @RequestBody DerivarTicketRequest request) {
+    public ResponseEntity<Ticket> derivar(@PathVariable Long id, @Valid @RequestBody DerivarTicketRequest request) {
         return ResponseEntity.ok(ticketService.derivar(id, request));
     }
 
@@ -66,12 +68,12 @@ public class TicketController {
     }
 
     @PostMapping("/{id}/respuestas")
-    public ResponseEntity<RespuestaTicket> responder(@PathVariable Long id, @RequestBody ResponderTicketRequest request) {
+    public ResponseEntity<RespuestaTicket> responder(@PathVariable Long id, @Valid @RequestBody ResponderTicketRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(ticketService.responder(id, request));
     }
 
     @PutMapping("/{id}/cerrar")
-    public ResponseEntity<Ticket> cerrar(@PathVariable Long id, @RequestBody CerrarTicketRequest request) {
+    public ResponseEntity<Ticket> cerrar(@PathVariable Long id, @Valid @RequestBody CerrarTicketRequest request) {
         return ResponseEntity.ok(ticketService.cerrar(id, request));
     }
 

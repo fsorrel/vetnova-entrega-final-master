@@ -1,5 +1,7 @@
 package cl.vetnova.notificaciones.controller;
 
+import jakarta.validation.Valid;
+
 import cl.vetnova.notificaciones.dto.RenderizarRequest;
 import cl.vetnova.notificaciones.model.PlantillaMensaje;
 import cl.vetnova.notificaciones.service.PlantillaMensajeService;
@@ -19,17 +21,17 @@ public class PlantillaMensajeController {
     }
 
     @PostMapping
-    public ResponseEntity<PlantillaMensaje> crear(@RequestBody PlantillaMensaje request) {
+    public ResponseEntity<PlantillaMensaje> crear(@Valid @RequestBody PlantillaMensaje request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.crear(request));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PlantillaMensaje> actualizar(@PathVariable Long id, @RequestBody PlantillaMensaje request) {
+    public ResponseEntity<PlantillaMensaje> actualizar(@PathVariable Long id, @Valid @RequestBody PlantillaMensaje request) {
         return ResponseEntity.ok(service.actualizar(id, request));
     }
 
     @PostMapping("/{id}/renderizar")
-    public ResponseEntity<Map<String, String>> renderizar(@PathVariable Long id, @RequestBody RenderizarRequest request) {
+    public ResponseEntity<Map<String, String>> renderizar(@PathVariable Long id, @Valid @RequestBody RenderizarRequest request) {
         return ResponseEntity.ok(Map.of("contenido", service.renderizar(id, request.getValores())));
     }
 

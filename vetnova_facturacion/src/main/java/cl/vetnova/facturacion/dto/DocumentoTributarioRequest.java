@@ -1,8 +1,14 @@
 package cl.vetnova.facturacion.dto;
 
+import jakarta.validation.constraints.NotBlank;
+
+import jakarta.validation.constraints.NotNull;
+
 public class DocumentoTributarioRequest {
+    @NotNull(message = "El ordenId es obligatorio")
     private Long ordenId;
     private Long clienteId;
+    @NotBlank(message = "El tipo de documento es obligatorio")
     private String tipo;
     private Double neto;
     private Double total;

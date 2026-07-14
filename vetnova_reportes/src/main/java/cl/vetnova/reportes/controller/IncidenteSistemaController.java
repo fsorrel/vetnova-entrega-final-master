@@ -1,5 +1,7 @@
 package cl.vetnova.reportes.controller;
 
+import jakarta.validation.Valid;
+
 import cl.vetnova.reportes.model.IncidenteSistema;
 import cl.vetnova.reportes.service.IncidenteSistemaService;
 import org.springframework.http.HttpStatus;
@@ -17,7 +19,7 @@ public class IncidenteSistemaController {
     }
 
     @PostMapping
-    public ResponseEntity<IncidenteSistema> registrar(@RequestBody IncidenteSistema request) {
+    public ResponseEntity<IncidenteSistema> registrar(@Valid @RequestBody IncidenteSistema request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.registrar(request));
     }
 

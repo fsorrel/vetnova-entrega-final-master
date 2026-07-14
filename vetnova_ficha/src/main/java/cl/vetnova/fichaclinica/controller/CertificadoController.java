@@ -1,5 +1,7 @@
 package cl.vetnova.fichaclinica.controller;
 
+import jakarta.validation.Valid;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +37,7 @@ public class CertificadoController {
      * @param certificado datos del certificado (fichaId, veterinarioId y tipo son obligatorios)
      */
     @PostMapping
-    public ResponseEntity<Certificado> crear(@RequestBody Certificado certificado) {
+    public ResponseEntity<Certificado> crear(@Valid @RequestBody Certificado certificado) {
         return ResponseEntity.status(HttpStatus.CREATED).body(certificadoService.crear(certificado));
     }
 
@@ -61,7 +63,7 @@ public class CertificadoController {
      * Siempre lanza RegistroInmutableException con HTTP 409.
      */
     @PutMapping("/{id}")
-    public ResponseEntity<Void> actualizar(@PathVariable Long id, @RequestBody Certificado certificado) {
+    public ResponseEntity<Void> actualizar(@PathVariable Long id, @Valid @RequestBody Certificado certificado) {
         throw new RegistroInmutableException("Los certificados no pueden modificarse una vez emitidos");
     }
 

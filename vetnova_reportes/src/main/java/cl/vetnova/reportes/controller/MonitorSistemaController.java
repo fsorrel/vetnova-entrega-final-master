@@ -1,5 +1,7 @@
 package cl.vetnova.reportes.controller;
 
+import jakarta.validation.Valid;
+
 import cl.vetnova.reportes.model.MonitorSistema;
 import cl.vetnova.reportes.service.MonitorSistemaService;
 import java.util.List;
@@ -18,7 +20,7 @@ public class MonitorSistemaController {
     }
 
     @PostMapping
-    public ResponseEntity<MonitorSistema> registrar(@RequestBody MonitorSistema request) {
+    public ResponseEntity<MonitorSistema> registrar(@Valid @RequestBody MonitorSistema request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.registrar(request));
     }
 

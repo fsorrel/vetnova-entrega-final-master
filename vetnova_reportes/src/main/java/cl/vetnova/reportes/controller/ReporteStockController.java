@@ -1,5 +1,7 @@
 package cl.vetnova.reportes.controller;
 
+import jakarta.validation.Valid;
+
 import cl.vetnova.reportes.model.ReporteStock;
 import cl.vetnova.reportes.service.ReporteStockService;
 import org.springframework.http.HttpStatus;
@@ -17,7 +19,7 @@ public class ReporteStockController {
     }
 
     @PostMapping
-    public ResponseEntity<ReporteStock> crear(@RequestBody ReporteStock request) {
+    public ResponseEntity<ReporteStock> crear(@Valid @RequestBody ReporteStock request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.crear(request));
     }
 }
