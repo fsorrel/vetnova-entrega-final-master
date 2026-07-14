@@ -13,6 +13,8 @@ public class ProductoRequestTest {
         ProductoRequest productoRequest = new ProductoRequest();
         productoRequest.setSku("x");
         assertEquals("x", productoRequest.getSku());
+        productoRequest.setCatalogoProductoId(9L);
+        assertEquals(9L, productoRequest.getCatalogoProductoId());
         productoRequest.setNombre("x");
         assertEquals("x", productoRequest.getNombre());
         productoRequest.setDescripcion("x");

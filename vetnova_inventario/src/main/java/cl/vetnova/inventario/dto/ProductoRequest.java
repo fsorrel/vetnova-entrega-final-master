@@ -11,6 +11,9 @@ public class ProductoRequest {
     @Size(max = 30, message = "El SKU no puede superar 30 caracteres")
     private String sku;
 
+    // Opcional: si viene, el snapshot (nombre/descripcion/precio) se refresca desde Catálogo.
+    private Long catalogoProductoId;
+
     @NotBlank(message = "El nombre es obligatorio")
     @Size(max = 100, message = "El nombre no puede superar 100 caracteres")
     private String nombre;
@@ -24,6 +27,8 @@ public class ProductoRequest {
 
     public String getSku() { return sku; }
     public void setSku(String sku) { this.sku = sku; }
+    public Long getCatalogoProductoId() { return catalogoProductoId; }
+    public void setCatalogoProductoId(Long catalogoProductoId) { this.catalogoProductoId = catalogoProductoId; }
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
     public String getDescripcion() { return descripcion; }

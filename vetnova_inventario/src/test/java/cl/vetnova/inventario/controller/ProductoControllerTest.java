@@ -65,4 +65,9 @@ public class ProductoControllerTest {
     void testObtenerProductoExistenteRespondeOk() throws Exception {
         mockMvc.perform(get("/api/v1/inventario/productos/1")).andExpect(status().isOk());
     }
+
+    @Test
+    void testSincronizarProductoConCatalogoRespondeOk() throws Exception {
+        mockMvc.perform(post("/api/v1/inventario/productos/1/sincronizar")).andExpect(status().isOk());
+    }
 }

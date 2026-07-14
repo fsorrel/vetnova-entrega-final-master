@@ -16,6 +16,13 @@ public class Producto {
     @Column(nullable = false, unique = true, length = 30)
     private String sku;
 
+    // Enlace explícito al producto en el MS Catálogo (fuente de verdad de la definición del producto).
+    // Inventario es fuente de verdad SOLO del stock/SKU.
+    @Column(name = "catalogo_producto_id")
+    private Long catalogoProductoId;
+
+    // nombre / descripcion / precio son un SNAPSHOT (caché) de Catálogo, no una copia ciega.
+    // Se refrescan al crear o vía POST /{id}/sincronizar. Catálogo manda si difieren.
     @Column(nullable = false, length = 100)
     private String nombre;
 
@@ -41,6 +48,8 @@ public class Producto {
     public void setId(Long id) { this.id = id; }
     public String getSku() { return sku; }
     public void setSku(String sku) { this.sku = sku; }
+    public Long getCatalogoProductoId() { return catalogoProductoId; }
+    public void setCatalogoProductoId(Long catalogoProductoId) { this.catalogoProductoId = catalogoProductoId; }
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
     public String getDescripcion() { return descripcion; }

@@ -26,6 +26,7 @@ spring:
       path: "/h2-console"
 app:
   notificaciones-service-url: "http://localhost:8092"
+  catalogo-service-url: "http://localhost:8082"
 logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} %5level [${spring.application.name}] %logger{25} : %msg%n"

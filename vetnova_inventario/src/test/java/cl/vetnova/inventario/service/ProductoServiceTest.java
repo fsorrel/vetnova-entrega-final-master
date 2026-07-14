@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+import cl.vetnova.inventario.client.CatalogoClient;
+import cl.vetnova.inventario.dto.CatalogoProductoDTO;
 import cl.vetnova.inventario.dto.ProductoRequest;
 import cl.vetnova.inventario.dto.ProductoResponse;
 import cl.vetnova.inventario.exception.BusinessRuleException;
@@ -21,6 +23,9 @@ public class ProductoServiceTest {
 
     @Mock
     private ProductoRepository productoRepository;
+
+    @Mock
+    private CatalogoClient catalogoClient;
 
     @InjectMocks
     private ProductoService productoService;
@@ -92,5 +97,70 @@ public class ProductoServiceTest {
 
         assertFalse(existente.getActivo());
         verify(productoRepository).save(existente);
+    }
+
+    @Test
+    void testCrearConCatalogoProductoIdRefrescaElSnapshotDesdeCatalogo() {
+        ProductoRequest r = request();
+        r.setCatalogoProductoId(7L);
+        CatalogoProductoDTO definicion = new CatalogoProductoDTO();
+        definicion.setNombre("Nombre oficial de Catálogo");
+        definicion.setDescripcion("Descripción de Catálogo");
+        definicion.setPrecio(99990.0);
+        when(catalogoClient.obtenerProducto(7L)).thenReturn(definicion);
+        when(productoRepository.existsBySku("ALI-001")).thenReturn(false);
+        when(productoRepository.save(any(Producto.class))).thenAnswer(inv -> inv.getArgument(0));
+
+        ProductoResponse response = productoService.crear(r);
+
+        assertEquals(7L, response.getCatalogoProductoId());
+        assertEquals("Nombre oficial de Catálogo", response.getNombre());
+        assertEquals(99990.0, response.getPrecio());
+    }
+
+    @Test
+    void testCrearConCatalogoCaidoConservaLosDatosDelRequest() {
+        ProductoRequest r = request();
+        r.setCatalogoProductoId(7L);
+        when(catalogoClient.obtenerProducto(7L)).thenReturn(null);
+        when(productoRepository.existsBySku("ALI-001")).thenReturn(false);
+        when(productoRepository.save(any(Producto.class))).thenAnswer(inv -> inv.getArgument(0));
+
+        ProductoResponse response = productoService.crear(r);
+
+        assertEquals("Alimento perro adulto 15kg", response.getNombre());
+        assertEquals(35990.0, response.getPrecio());
+    }
+
+    @Test
+    void testSincronizarConCatalogoActualizaElSnapshot() {
+        Producto existente = new Producto();
+        existente.setId(1L);
+        existente.setSku("ALI-001");
+        existente.setCatalogoProductoId(7L);
+        existente.setNombre("Nombre viejo");
+        existente.setPrecio(1000.0);
+        CatalogoProductoDTO definicion = new CatalogoProductoDTO();
+        definicion.setNombre("Nombre nuevo");
+        definicion.setPrecio(2000.0);
+        when(productoRepository.findById(1L)).thenReturn(Optional.of(existente));
+        when(catalogoClient.obtenerProducto(7L)).thenReturn(definicion);
+        when(productoRepository.save(any(Producto.class))).thenAnswer(inv -> inv.getArgument(0));
+
+        ProductoResponse response = productoService.sincronizarConCatalogo(1L);
+
+        assertEquals("Nombre nuevo", response.getNombre());
+        assertEquals(2000.0, response.getPrecio());
+    }
+
+    @Test
+    void testSincronizarSinEnlaceACatalogoLanzaExcepcion() {
+        Producto existente = new Producto();
+        existente.setId(1L);
+        existente.setSku("ALI-001");
+        when(productoRepository.findById(1L)).thenReturn(Optional.of(existente));
+
+        assertThrows(BusinessRuleException.class, () -> productoService.sincronizarConCatalogo(1L));
+        verify(catalogoClient, never()).obtenerProducto(any());
     }
 }

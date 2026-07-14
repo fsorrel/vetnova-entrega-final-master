@@ -7,6 +7,7 @@ public class ProductoResponse {
 
     private Long id;
     private String sku;
+    private Long catalogoProductoId;
     private String nombre;
     private String descripcion;
     private Double precio;
@@ -18,6 +19,8 @@ public class ProductoResponse {
     public void setId(Long id) { this.id = id; }
     public String getSku() { return sku; }
     public void setSku(String sku) { this.sku = sku; }
+    public Long getCatalogoProductoId() { return catalogoProductoId; }
+    public void setCatalogoProductoId(Long catalogoProductoId) { this.catalogoProductoId = catalogoProductoId; }
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
     public String getDescripcion() { return descripcion; }

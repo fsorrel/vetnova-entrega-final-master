@@ -14,6 +14,8 @@ public class ProductoTest {
         assertEquals(1L, producto.getId());
         producto.setSku("x");
         assertEquals("x", producto.getSku());
+        producto.setCatalogoProductoId(9L);
+        assertEquals(9L, producto.getCatalogoProductoId());
         producto.setNombre("x");
         assertEquals("x", producto.getNombre());
         producto.setDescripcion("x");

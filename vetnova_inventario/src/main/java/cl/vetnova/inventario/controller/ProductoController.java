@@ -45,4 +45,10 @@ public class ProductoController {
         productoService.desactivar(id);
         return ResponseEntity.noContent().build();
     }
+
+    // Refresca el snapshot local del producto desde el MS Catálogo (fuente de verdad).
+    @PostMapping("/{id}/sincronizar")
+    public ResponseEntity<ProductoResponse> sincronizar(@PathVariable Long id) {
+        return ResponseEntity.ok(productoService.sincronizarConCatalogo(id));
+    }
 }
