@@ -3,6 +3,16 @@
 Plataforma backend para una clínica veterinaria con sucursales en Chillán, Los Ángeles y Talca.
 Proyecto de Desarrollo Full Stack 1 (Duoc UC).
 
+## Integrantes del equipo
+
+> COMPLETAR con los nombres reales y el número de equipo antes de la entrega.
+
+- Nombre Apellido
+- Nombre Apellido
+- Nombre Apellido (equipos de 2 a 3 integrantes)
+
+**Equipo N°:** (completar) · **Aplicación / contexto:** VetNova — clínica veterinaria.
+
 Cada microservicio es un proyecto Maven independiente con Spring Boot 3.3.5, Java 17 y su propia
 base de datos H2 en archivo (se crea sola al levantar, no hay que instalar nada). La comunicación
 entre microservicios es REST con WebClient.
@@ -26,6 +36,25 @@ entre microservicios es REST con WebClient.
 
 La consola H2 de cada servicio queda en `http://localhost:PUERTO/h2-console`
 (JDBC URL: la misma `spring.datasource.url` del application.properties, usuario `sa`, sin contraseña).
+
+## Documentación Swagger / OpenAPI
+
+Cada microservicio documenta su API con **springdoc-openapi**. Con el servicio levantado:
+
+| Microservicio | Puerto | Swagger UI | OpenAPI (JSON) |
+|---|---|---|---|
+| auth | 8081 | http://localhost:8081/swagger-ui.html | http://localhost:8081/v3/api-docs |
+| catalogo | 8082 | http://localhost:8082/swagger-ui.html | http://localhost:8082/v3/api-docs |
+| inventario | 8083 | http://localhost:8083/swagger-ui.html | http://localhost:8083/v3/api-docs |
+| ventas | 8084 | http://localhost:8084/swagger-ui.html | http://localhost:8084/v3/api-docs |
+| envio | 8085 | http://localhost:8085/swagger-ui.html | http://localhost:8085/v3/api-docs |
+| agenda | 8086 | http://localhost:8086/swagger-ui.html | http://localhost:8086/v3/api-docs |
+| ficha | 8087 | http://localhost:8087/swagger-ui.html | http://localhost:8087/v3/api-docs |
+| soporte | 8088 | http://localhost:8088/swagger-ui.html | http://localhost:8088/v3/api-docs |
+| laboratorio | 8089 | http://localhost:8089/swagger-ui.html | http://localhost:8089/v3/api-docs |
+| facturacion | 8090 | http://localhost:8090/swagger-ui.html | http://localhost:8090/v3/api-docs |
+| reportes | 8091 | http://localhost:8091/swagger-ui.html | http://localhost:8091/v3/api-docs |
+| notificaciones | 8092 | http://localhost:8092/swagger-ui.html | http://localhost:8092/v3/api-docs |
 
 ## Compilar los 12 de una vez (Windows)
 
