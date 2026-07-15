@@ -5,11 +5,10 @@ Proyecto de Desarrollo Full Stack 1 (Duoc UC).
 
 ## Integrantes del equipo
 
-> COMPLETAR con los nombres reales y el número de equipo antes de la entrega.
-
-- Nombre Apellido
-- Nombre Apellido
-- Nombre Apellido (equipos de 2 a 3 integrantes)
+- Fernando Antonio Sorrel Pinto
+- Luis Heraldo Roa Riquelme
+- Damián Ariel González Cuevas
+- Martín Adolfo Hormazábal Sánchez
 
 **Equipo N°:** (completar) · **Aplicación / contexto:** VetNova — clínica veterinaria.
 
