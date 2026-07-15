@@ -14,9 +14,13 @@ public class DetalleOrden {
     @JoinColumn(name = "orden_id", nullable = false)
     private Orden orden;
 
+    // productoId enlaza al producto de Catálogo (fuente de verdad de la definición).
     @Column(nullable = false)
     private Long productoId;
 
+    // SNAPSHOT inmutable: nombreProducto y precioUnitario se congelan al momento de la venta.
+    // NO es duplicación de Catálogo: la orden/boleta debe preservar el nombre y el precio
+    // tal como estaban al comprar, aunque Catálogo los cambie después (historial de la transacción).
     @Column(length = 100)
     private String nombreProducto;
 

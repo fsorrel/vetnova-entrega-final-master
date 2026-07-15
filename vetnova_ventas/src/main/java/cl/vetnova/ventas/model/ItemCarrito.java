@@ -22,12 +22,15 @@ public class ItemCarrito {
     @Column(name = "carrito_id")
     private Long carritoId;
 
+    // itemId enlaza al producto/servicio de Catálogo (fuente de verdad).
     @Column(name = "item_id")
     private Long itemId;
 
     @Column(name = "tipo", length = 20)
     private String tipo;
 
+    // SNAPSHOT de visualización: nombre y precio son lo que vio el cliente al agregar el ítem.
+    // NO es duplicación: la fuente de verdad sigue siendo Catálogo; esto es la foto del carrito.
     @Column(name = "nombre", length = 100)
     private String nombre;
 

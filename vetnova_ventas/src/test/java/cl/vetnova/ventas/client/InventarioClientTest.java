@@ -93,4 +93,11 @@ class InventarioClientTest {
         when(ex.exchange(any())).thenReturn(Mono.just(json("{\"id\":10}")), Mono.just(status(HttpStatus.INTERNAL_SERVER_ERROR)));
         assertThrows(RemoteServiceException.class, () -> clientWith(ex).registrarEntrada(1L, "CHILLAN", 5, "bodega"));
     }
+
+    @Test
+    void testRegistrarEntradaInventarioNoEncontrado() {
+        ExchangeFunction ex = mock(ExchangeFunction.class);
+        when(ex.exchange(any())).thenReturn(Mono.just(json("{}")));
+        assertThrows(RemoteServiceException.class, () -> clientWith(ex).registrarEntrada(1L, "CHILLAN", 5, "bodega"));
+    }
 }

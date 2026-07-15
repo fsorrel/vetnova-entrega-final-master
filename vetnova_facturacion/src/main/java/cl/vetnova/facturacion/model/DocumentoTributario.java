@@ -15,6 +15,7 @@ public class DocumentoTributario {
     @Column(name = "orden_id")
     private Long ordenId;
 
+    // clienteId enlaza al cliente (fuente de verdad = MS Auth).
     @Column(name = "cliente_id")
     private Long clienteId;
 
@@ -39,6 +40,9 @@ public class DocumentoTributario {
     @Column(name = "rut_emisor", length = 20)
     private String rutEmisor;
 
+    // SNAPSHOT legal: el RUT del receptor queda congelado e impreso en el documento tributario
+    // al emitirlo (exigencia del SII), aunque el cliente cambie sus datos después.
+    // NO es duplicación de Auth: es un registro legal inmutable de la emisión.
     @Column(name = "rut_receptor", length = 20)
     private String rutReceptor;
 
