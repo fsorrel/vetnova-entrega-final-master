@@ -10,7 +10,7 @@ Proyecto de Desarrollo Full Stack 1 (Duoc UC).
 - Damián Ariel González Cuevas
 - Martín Adolfo Hormazábal Sánchez
 
-**Equipo N°:** (completar) · **Aplicación / contexto:** VetNova — clínica veterinaria.
+**Equipo N°:** 4 · **Aplicación / contexto:** VetNova — clínica veterinaria.
 
 Cada microservicio es un proyecto Maven independiente con Spring Boot 3.3.5, Java 17 y su propia
 base de datos H2 en archivo (se crea sola al levantar, no hay que instalar nada). La comunicación
