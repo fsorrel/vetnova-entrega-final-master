@@ -100,4 +100,12 @@ class InventarioClientTest {
         when(ex.exchange(any())).thenReturn(Mono.just(json("{}")));
         assertThrows(RemoteServiceException.class, () -> clientWith(ex).registrarEntrada(1L, "CHILLAN", 5, "bodega"));
     }
+
+    @Test
+    void testRegistrarSalidaBuscarRespuestaNulaLanzaRemote() {
+        // El GET de búsqueda responde 200 sin cuerpo -> response == null (rama izquierda del OR).
+        ExchangeFunction ex = mock(ExchangeFunction.class);
+        when(ex.exchange(any())).thenReturn(Mono.just(status(HttpStatus.OK)));
+        assertThrows(RemoteServiceException.class, () -> clientWith(ex).registrarSalida(1L, "CHILLAN", 5, "venta"));
+    }
 }
