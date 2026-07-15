@@ -1,0 +1,168 @@
+# VetNova - Orquestación local de los 12 microservicios + API Gateway
+# Uso:  docker compose up --build        (la 1ra vez compila cada imagen desde su código)
+#       docker compose up -d             (arranques posteriores, en segundo plano)
+#       docker compose down              (detener y eliminar contenedores)
+# Gateway (punto de entrada unico): http://localhost:8080
+# Cada microservicio tambien queda accesible directo en su puerto (8081-8092).
+#
+# Las URLs entre microservicios se inyectan por variable de entorno (APP_*_SERVICE_URL / MS_*_URI).
+# Sin Docker, cada servicio usa el default "localhost" de su application.yml, sin cambios.
+
+name: vetnova
+
+services:
+
+  # ── Servicios base (no dependen de otros) ─────────────────────────────
+  auth:
+    build: ./vetnova_auth
+    container_name: vetnova_auth
+    ports: ["8081:8081"]
+    networks: [vetnova-net]
+    restart: unless-stopped
+
+  catalogo:
+    build: ./vetnova_catalogo
+    container_name: vetnova_catalogo
+    ports: ["8082:8082"]
+    networks: [vetnova-net]
+    restart: unless-stopped
+
+  ficha:
+    build: ./vetnova_ficha
+    container_name: vetnova_ficha
+    ports: ["8087:8087"]
+    networks: [vetnova-net]
+    restart: unless-stopped
+
+  notificaciones:
+    build: ./vetnova_notificaciones
+    container_name: vetnova_notificaciones
+    ports: ["8092:8092"]
+    networks: [vetnova-net]
+    restart: unless-stopped
+
+  # ── Servicios con dependencias remotas (WebClient) ────────────────────
+  inventario:
+    build: ./vetnova_inventario
+    container_name: vetnova_inventario
+    ports: ["8083:8083"]
+    environment:
+      APP_CATALOGO_SERVICE_URL: http://catalogo:8082
+      APP_NOTIFICACIONES_SERVICE_URL: http://notificaciones:8092
+    depends_on: [catalogo, notificaciones]
+    networks: [vetnova-net]
+    restart: unless-stopped
+
+  ventas:
+    build: ./vetnova_ventas
+    container_name: vetnova_ventas
+    ports: ["8084:8084"]
+    environment:
+      APP_INVENTARIO_SERVICE_URL: http://inventario:8083
+      APP_AUTH_SERVICE_URL: http://auth:8081
+      APP_CATALOGO_SERVICE_URL: http://catalogo:8082
+    depends_on: [inventario, auth, catalogo]
+    networks: [vetnova-net]
+    restart: unless-stopped
+
+  envio:
+    build: ./vetnova_envio
+    container_name: vetnova_envio
+    ports: ["8085:8085"]
+    environment:
+      APP_VENTAS_SERVICE_URL: http://ventas:8084
+      APP_INVENTARIO_SERVICE_URL: http://inventario:8083
+      APP_NOTIFICACIONES_SERVICE_URL: http://notificaciones:8092
+    depends_on: [ventas, inventario, notificaciones]
+    networks: [vetnova-net]
+    restart: unless-stopped
+
+  agenda:
+    build: ./vetnova_agenda
+    container_name: vetnova_agenda
+    ports: ["8086:8086"]
+    environment:
+      APP_AUTH_SERVICE_URL: http://auth:8081
+      APP_FICHA_SERVICE_URL: http://ficha:8087
+    depends_on: [auth, ficha]
+    networks: [vetnova-net]
+    restart: unless-stopped
+
+  soporte:
+    build: ./vetnova_soporte
+    container_name: vetnova_soporte
+    ports: ["8088:8088"]
+    environment:
+      APP_AUTH_SERVICE_URL: http://auth:8081
+    depends_on: [auth]
+    networks: [vetnova-net]
+    restart: unless-stopped
+
+  laboratorio:
+    build: ./vetnova_laboratorio
+    container_name: vetnova_laboratorio
+    ports: ["8089:8089"]
+    environment:
+      APP_AUTH_SERVICE_URL: http://auth:8081
+      APP_FICHA_SERVICE_URL: http://ficha:8087
+    depends_on: [auth, ficha]
+    networks: [vetnova-net]
+    restart: unless-stopped
+
+  facturacion:
+    build: ./vetnova_facturacion
+    container_name: vetnova_facturacion
+    ports: ["8090:8090"]
+    environment:
+      APP_VENTAS_SERVICE_URL: http://ventas:8084
+    depends_on: [ventas]
+    networks: [vetnova-net]
+    restart: unless-stopped
+
+  reportes:
+    build: ./vetnova_reportes
+    container_name: vetnova_reportes
+    ports: ["8091:8091"]
+    environment:
+      APP_AUTH_SERVICE_URL: http://auth:8081
+    depends_on: [auth]
+    networks: [vetnova-net]
+    restart: unless-stopped
+
+  # ── API Gateway (punto de entrada unico) ──────────────────────────────
+  gateway:
+    build: ./getawayspring-profeAlejandro
+    container_name: vetnova_gateway
+    ports: ["8080:8080"]
+    environment:
+      MS_AUTH_URI: http://auth:8081
+      MS_CATALOGO_URI: http://catalogo:8082
+      MS_INVENTARIO_URI: http://inventario:8083
+      MS_VENTAS_URI: http://ventas:8084
+      MS_ENVIO_URI: http://envio:8085
+      MS_AGENDA_URI: http://agenda:8086
+      MS_FICHA_URI: http://ficha:8087
+      MS_SOPORTE_URI: http://soporte:8088
+      MS_LABORATORIO_URI: http://laboratorio:8089
+      MS_FACTURACION_URI: http://facturacion:8090
+      MS_REPORTES_URI: http://reportes:8091
+      MS_NOTIFICACIONES_URI: http://notificaciones:8092
+    depends_on:
+      - auth
+      - catalogo
+      - inventario
+      - ventas
+      - envio
+      - agenda
+      - ficha
+      - soporte
+      - laboratorio
+      - facturacion
+      - reportes
+      - notificaciones
+    networks: [vetnova-net]
+    restart: unless-stopped
+
+networks:
+  vetnova-net:
+    driver: bridge
